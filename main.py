@@ -15,11 +15,9 @@ with open('creds.yaml', encoding="utf8") as file:
     chromeDriverPath = (data['chromeDriverPath'])
 
 # Clicking on element when clickable (timer is max time to search for element)
-
-
 def clickXpath(elementPath, timer=20):
     WebDriverWait(driver, timer).until(EC.element_to_be_clickable((By.XPATH, elementPath))).click()
-
+# Sending keys to text box (timer is max time to search for element)
 def fillData(elementPath,keys, timer=20):
     WebDriverWait(driver, timer).until(EC.element_to_be_clickable((By.XPATH, elementPath))).send_keys(keys)
 
@@ -34,28 +32,24 @@ driver.get("https://www.wallashops.co.il/Login")
 
 # Logging in
 try:
-    driver.find_element_by_xpath('//*[@id="txtUserName"]').send_keys(data['email'])
-    print('filled in taz')
-    driver.find_element_by_xpath('//*[@id="txtPassword"]').send_keys(data['password'])
+    fillData('//*[@id="txtUserName"]',data['email'])
+    print('filled in email')
+    fillData('//*[@id="txtPassword"]',data['password'])
     print('filled in pass')
     clickXpath('//*[@id="btnSubmit"]', 20)
-    print('filled in btnsubmit')
+    print('clicked on btnsubmit')
 except:
     print('exception 2')
 
- # Navigating to pruduct page
+ # Navigating to product page
 driver.get(data['productUrl'])
 
-# time.sleep(5)
 clickXpath('//*[@id="radio_1249600"]') #לא רוצה להחזיר
 clickXpath('//*[@id="NewBuyBox"]/div/div[3]/div/input[1]') #לקנייה
 clickXpath('//*[@id="radioShipmentMethodSelector33554436"]',20) #שליח ups
 clickXpath('//*[@id="addresscon"]/ul/li/div[1]/div[2]/input[1]') #בחירת כתובת
 clickXpath('//*[@id="existingPayments"]') # תשלום באשראי
-
-driver.switch_to.frame(0)#Swhitch to credit card frame
-fillData('//*[@id="userData2"]',data['name'])
-fillData('//*[@id="cardNumber"]',data['creditCard'])
-fillData('//*[@id="personalId"]',data['taz'])
-
-
+clickXpath('//*[@id="creditcardtable"]/span[4]/input') #בחירת אשראי שמור במערכת
+# TODO: Chose amount of payments 
+fillData('//*[@id="txtUserId"]', data['taz']) #תז לאימות
+### clickXpath('//*[@id="summary"]/div/div[2]/div/payment-summary/div/div[13]/input[1]')#!!אישור תשלום סופי ------------------------
