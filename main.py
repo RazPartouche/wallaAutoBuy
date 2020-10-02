@@ -49,15 +49,13 @@ driver.get(data['productUrl'])
 # time.sleep(5)
 clickXpath('//*[@id="radio_1249600"]') #לא רוצה להחזיר
 clickXpath('//*[@id="NewBuyBox"]/div/div[3]/div/input[1]') #לקנייה
-clickXpath('//*[@id="radioShipmentMethodSelector33554436"]',20)
-#todo: click on something
-driver.find_element_by_xpath('//*[@id="full_name"]').send_keys(data['name'])
-driver.find_element_by_xpath('//*[@id="phone"]').send_keys(data['phoneNumber'])
-driver.find_element_by_xpath('//*[@id="city"]').send_keys(data['city'])
-clickXpath("/html/body/ul[1]/li")
-driver.find_element_by_xpath('//*[@id="street"]').send_keys(data['street'])
-clickXpath("/html/body/ul[2]/li")
-driver.find_element_by_xpath('//*[@id="zipcode"]').send_keys(data['zipCode'])
-driver.find_element_by_xpath('//*[@id="house_no"]').send_keys(data['homeNumber'])
-driver.find_element_by_xpath('//*[@id="apartment_no"]').send_keys(data['aptNumber'])
-driver.find_element_by_xpath('//*[@id="floor_no"]').send_keys(data['floorNumber'])
+clickXpath('//*[@id="radioShipmentMethodSelector33554436"]',20) #שליח ups
+clickXpath('//*[@id="addresscon"]/ul/li/div[1]/div[2]/input[1]') #בחירת כתובת
+clickXpath('//*[@id="existingPayments"]') # תשלום באשראי
+
+driver.switch_to.frame(0)#Swhitch to credit card frame
+fillData('//*[@id="userData2"]',data['name'])
+fillData('//*[@id="cardNumber"]',data['creditCard'])
+fillData('//*[@id="personalId"]',data['taz'])
+
+
