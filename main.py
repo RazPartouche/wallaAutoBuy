@@ -11,7 +11,6 @@ from selenium.webdriver.support import expected_conditions as EC
 # Accessing creds.yaml
 with open('creds.yaml', encoding="utf8") as file:
     data = yaml.load(file, Loader=yaml.SafeLoader)
-    # productUrl = (data['productUrl'])
     chromeDriverPath = (data['chromeDriverPath'])
 
 
@@ -38,8 +37,6 @@ def screenshotAndSend():
     print('Image sent')
 
 # Clicking on element when clickable (timer is max time to search for element)
-
-
 def clickXpath(elementPath, timer=20):
     WebDriverWait(driver, timer).until(
         EC.element_to_be_clickable((By.XPATH, elementPath))).click()
@@ -48,16 +45,16 @@ def clickXpath(elementPath, timer=20):
 def waitXpath(elementPath, timer=20):
     WebDriverWait(driver, timer).until(
         EC.element_to_be_clickable((By.XPATH, elementPath)))
+
 # Sending keys to text box (timer is max time to search for element)
-
-
 def fillData(elementPath, keys, timer=20):
     WebDriverWait(driver, timer).until(
         EC.element_to_be_clickable((By.XPATH, elementPath))).send_keys(keys)
 
 def main():
     # Navigating to product page
-    driver.get(data['productUrl'])
+    productUrl = input('Enter product url')
+    driver.get(productUrl)
 
     waitXpath('//*[@id="NewBuyBox"]/div/div[3]/div/input[1]')
     try:
@@ -87,7 +84,7 @@ def main():
     # #Final payment
     # ### clickXpath('//*[@id="summary"]/div/div[2]/div/payment-summary/div/div[13]/input[1]')#!!אישור תשלום סופי ------------------------
     telegramNotify("Congratz! you got the product and will most likely get a picture of the purchase in 15 seconds")
-    time.sleep(15) # sleep in order to acount for purchesing time before screenshot
+    time.sleep(15) # sleep in order to account for purchasing time before screenshot
     screenshotAndSend()
 
 
@@ -111,15 +108,9 @@ print('clicked on btnsubmit')
 tryCounter = 1
 while True:
     print("Trying to run the script for  the {}nd time".format(tryCounter))
-    # with open('status.txt') as f:
-    #     statusLine = f.readline()
-    # print(statusLine)
     try:
         main()
     except:
         tryCounter += 1
         continue
     exit(0)
-
-
-
