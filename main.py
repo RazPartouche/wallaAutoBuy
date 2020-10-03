@@ -56,8 +56,10 @@ def main(productUrl):
     # Navigating to product page
     driver.get(productUrl)
     waitXpath('//*[@id="NewBuyBox"]/div/div[3]/div/input[1]', 30)
+    print('Found purchase button, but not clicking as of now ')
     try:
         clickXpath('//*[@id="radio_1249600"]', 2)  # לא רוצה להחזיר
+        print("found and clicked on don't want to return box")
     except:
         print("Couldn't find don't want to return box")
     clickXpath('//*[@id="NewBuyBox"]/div/div[3]/div/input[1]')  # לקנייה
@@ -91,6 +93,7 @@ def main(productUrl):
 chrome_options = webdriver.ChromeOptions()
 prefs = {"profile.default_content_setting_values.notifications": 2}
 chrome_options.add_experimental_option("prefs", prefs)
+chrome_options.add_experimental_option("detach", True)
 chrome_options.add_argument("start-maximized")
 driver = webdriver.Chrome(chrome_options=chrome_options,
                           executable_path=chromeDriverPath)
