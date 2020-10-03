@@ -51,11 +51,9 @@ def fillData(elementPath, keys, timer=20):
     WebDriverWait(driver, timer).until(
         EC.element_to_be_clickable((By.XPATH, elementPath))).send_keys(keys)
 
-def main():
+def main(productUrl):
     # Navigating to product page
-    productUrl = input('Enter product url')
     driver.get(productUrl)
-
     waitXpath('//*[@id="NewBuyBox"]/div/div[3]/div/input[1]')
     try:
         clickXpath('//*[@id="radio_1249600"]', 2)  # לא רוצה להחזיר
@@ -104,12 +102,13 @@ fillData('//*[@id="txtPassword"]', data['password'])
 print('filled in pass')
 clickXpath('//*[@id="btnSubmit"]', 20)
 print('clicked on btnsubmit')
+productUrl = input('Enter product url')
 
 tryCounter = 1
 while True:
     print("Trying to run the script for  the {}nd time".format(tryCounter))
     try:
-        main()
+        main(productUrl)
     except:
         tryCounter += 1
         continue
