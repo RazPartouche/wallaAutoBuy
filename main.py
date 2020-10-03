@@ -2,6 +2,7 @@ import yaml
 import webbrowser
 import time
 import requests
+import sys
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -37,24 +38,24 @@ def screenshotAndSend():
     print('Image sent')
 
 # Clicking on element when clickable (timer is max time to search for element)
-def clickXpath(elementPath, timer=20):
+def clickXpath(elementPath, timer=120):
     WebDriverWait(driver, timer).until(
         EC.element_to_be_clickable((By.XPATH, elementPath))).click()
 
 
-def waitXpath(elementPath, timer=20):
+def waitXpath(elementPath, timer=120):
     WebDriverWait(driver, timer).until(
         EC.element_to_be_clickable((By.XPATH, elementPath)))
 
 # Sending keys to text box (timer is max time to search for element)
-def fillData(elementPath, keys, timer=20):
+def fillData(elementPath, keys, timer=120):
     WebDriverWait(driver, timer).until(
         EC.element_to_be_clickable((By.XPATH, elementPath))).send_keys(keys)
 
 def main(productUrl):
     # Navigating to product page
     driver.get(productUrl)
-    waitXpath('//*[@id="NewBuyBox"]/div/div[3]/div/input[1]')
+    waitXpath('//*[@id="NewBuyBox"]/div/div[3]/div/input[1]', 30)
     try:
         clickXpath('//*[@id="radio_1249600"]', 2)  # לא רוצה להחזיר
     except:
@@ -102,7 +103,11 @@ fillData('//*[@id="txtPassword"]', data['password'])
 print('filled in pass')
 clickXpath('//*[@id="btnSubmit"]', 20)
 print('clicked on btnsubmit')
-productUrl = input('Enter product url')
+print('len is {}'.format(len(sys.argv)))
+if len(sys.argv) <= 1:
+    productUrl = input('Enter product url: ')
+else:
+    productUrl = sys.argv[1]
 
 tryCounter = 1
 while True:
